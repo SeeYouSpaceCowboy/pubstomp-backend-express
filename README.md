@@ -6,10 +6,10 @@ This is the repo to the backend API of Pubstomp.
 After you clone this repo, run the following code to start the project.
 
 ```
-npm i
-npm start
+$ npm i
+$ npm start
 ```
 
 ## API Endpoints
 
-All API endpoints have a `api` prefix. If this is on localhost then you should be making calls to the following https://localhost:4000/api
+All API endpoints have a `api` prefix. If this is on localhost then you should be making calls to the following https://localhost:4000/api.
