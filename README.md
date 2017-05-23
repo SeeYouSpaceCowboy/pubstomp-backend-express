@@ -2,7 +2,7 @@
 
 This is the repo to the backend API of Pubstomp. 
 
-# Pubstomp Frontend
+## Pubstomp Frontend
 
 You can redirect to the frontend with this link https://github.com/SeeYouSpaceCowboy/pubstomp-frontend-react. Please follow the README.md there to set up the frontend.
 
