@@ -8,7 +8,7 @@ You can redirect to the frontend with this link https://github.com/SeeYouSpaceCo
 
 ## Getting Started
 
-After you clone this repo, run the following code to start the project.
+After you clone this repo, run the following code to start the api.
 
 ```
 $ npm i
