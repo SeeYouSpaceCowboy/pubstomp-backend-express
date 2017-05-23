@@ -17,4 +17,4 @@ $ npm start
 
 ## API Endpoints
 
-All API endpoints have a `api` prefix. If this is on localhost then this should default to port 4000 and you should be making calls to the following https://localhost:4000/api.
+All API endpoints have a `api` prefix. If this is on localhost then this should default to port `4000` and you should be making calls to the following https://localhost:4000/api.
