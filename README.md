@@ -10,7 +10,7 @@ You can redirect to the frontend with this link https://github.com/SeeYouSpaceCo
 
 After you clone this repo, make sure you start MongoDB.
 ```bash
-$ sudo mongodb
+$ sudo mongod
 ```
 
 After you start MongoDB, run the following code to start the api.
