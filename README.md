@@ -28,3 +28,4 @@ All API endpoints have a `api` prefix. If this is on localhost then this should 
 | ------------- | ------------- | ------------- |
 | `/signup`  | `email`, `gamerid`, `password`, `name`  ||
 | `/login`  | `email`, `password`  ||
+| `/users`  |||
