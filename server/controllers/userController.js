@@ -3,13 +3,15 @@ import db from './../models'
 const userController = {}
 
 userController.create = (request, response) => {
-  const { username, password } = request.body
+  const { email, gamerid, password, name } = request.body
 
   //Validation
 
   const user = new db.User({
-    username,
-    password
+    email,
+    gamerid,
+    password,
+    name
   })
 
   user.save().then((newUser) => {
@@ -22,6 +24,10 @@ userController.create = (request, response) => {
       message: err
     })
   })
+}
+
+userController.show = (request, response) => {
+  
 }
 
 export default userController
