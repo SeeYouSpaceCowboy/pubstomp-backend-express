@@ -27,6 +27,6 @@ All API endpoints have a `api` prefix. If this is on localhost then this should 
 | Methods  | Endpoints  | Variables | Response |
 | ------------- | ------------- | ------------- | ------------- |
 |post| `/signup`  | `email`, `gamerid`, `password`, `name`  ||
-|get| `/login`  | `email`, `password`  ||
+|get| <s>`/login`</s>  | `email`, `password`  ||
 |get| `/users`  |||
 |get| `/user/:email`|||
