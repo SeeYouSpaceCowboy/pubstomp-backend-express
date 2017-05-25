@@ -23,3 +23,7 @@ $ npm start
 ## API Endpoints
 
 All API endpoints have a `api` prefix. If this is on localhost then this should default to port `4000` and you should be making calls to the following http://localhost:4000/api.
+
+| Endpoints  | Variables |
+| ------------- | ------------- |
+| /signup  | `email`, `gamerid`, `password`, `name`  |
