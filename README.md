@@ -26,4 +26,5 @@ All API endpoints have a `api` prefix. If this is on localhost then this should 
 
 | Endpoints  | Variables |
 | ------------- | ------------- |
-| /signup  | `email`, `gamerid`, `password`, `name`  |
+| `/signup`  | `email`, `gamerid`, `password`, `name`  |
+| `/login`  | `email`, `password`  |
