@@ -37,7 +37,7 @@ describe('Users Controller', () => {
     eric.save()
       .then(() => {
         request(app)
-        .get('/api/login')
+        .post('/api/login')
         .send(user)
         .end( (err, result) => {
           assert.equal(result.body.data.email, 'test@email.com');
