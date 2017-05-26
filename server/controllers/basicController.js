@@ -6,4 +6,4 @@ basicController.get = (request, response) => {
   })
 }
 
-export default basicController
+module.exports = basicController

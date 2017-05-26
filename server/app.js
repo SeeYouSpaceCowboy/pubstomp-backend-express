@@ -1,12 +1,16 @@
-import express from 'express'
-import mongoose from 'mongoose'
-import bodyParser from 'body-parser'
+const express =require('express')
+const mongoose =require('mongoose')
+const bodyParser =require('body-parser')
 
-import routes from './routes'
+const routes =require('./routes')
 
-mongoose.connect('mongodb://localhost:27017/pubstomp', () => {
-  console.log('Connected to MongoDB...')
-})
+if ( process.env.NODE_ENV !== 'test') {
+  mongoose.connect('mongodb://localhost/pubstomp', () => {
+    console.log('Connected to MongoDB...')
+  })
+  .then( () => true )
+  .catch( (err) => { console.log(err) })
+}
 
 const app = express()
 
@@ -20,4 +24,9 @@ app.use((req, res, next) => {
 
 app.use('/api', routes)
 
-export default app
+app.use( (err, req, res, next) => {
+  console.log(err.message)
+  res.status(422).send({error: err.message})
+})
+
+module.exports = app

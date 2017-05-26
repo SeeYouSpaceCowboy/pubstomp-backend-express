@@ -1,4 +1,4 @@
-import db from './../models'
+const db = require('./../models')
 
 const userController = {}
 
@@ -21,6 +21,21 @@ userController.create = (request, response) => {
     })
   }).catch((err) => {
     response.status(500).json({
+      message: err
+    })
+  })
+}
+
+userController.login = (request, response) => {
+  const { email } = request.body
+
+  db.User.findOne({ email: email }).then((user) => {
+    return response.status(200).json({
+      success: true,
+      data: user
+    })
+  }).catch((err) => {
+    return response.status(500).json({
       message: err
     })
   })
@@ -54,4 +69,4 @@ userController.show = (request, response) => {
   })
 }
 
-export default userController
+module.exports = userController

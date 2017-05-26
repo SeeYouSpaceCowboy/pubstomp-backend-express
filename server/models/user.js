@@ -1,4 +1,4 @@
-import mongoose from 'mongoose'
+const mongoose = require('mongoose')
 
 const { Schema } = mongoose
 
@@ -11,7 +11,7 @@ const userSchema = new Schema({
   },
   gamerid: {
     type: String,
-    required: true,
+    required: false,
     minlength: [3, 'GamerID must be 3 characters or more']
   },
   password: {
@@ -28,4 +28,4 @@ const userSchema = new Schema({
 
 const User = mongoose.model('User', userSchema)
 
-export default User
+module.exports = User
