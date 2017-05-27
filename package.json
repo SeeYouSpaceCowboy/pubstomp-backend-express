@@ -39,6 +39,10 @@
   "dependencies": {
     "babel-cli": "^6.24.1",
     "babel-preset-node6": "^11.0.0",
-    "express": "^4.15.3"
+    "bcrypt": "^1.0.2",
+    "express": "^4.15.3",
+    "jwt-simple": "^0.5.1",
+    "passport": "^0.3.2",
+    "passport-jwt": "^2.2.1"
   }
 }

@@ -1,8 +1,10 @@
-const express =require('express')
-const mongoose =require('mongoose')
-const bodyParser =require('body-parser')
+const express     = require('express')
+const mongoose    = require('mongoose')
+const bodyParser  = require('body-parser')
+const passport    = require('passport')
+const jwt         = require('jwt-simple')
 
-const routes =require('./routes')
+const routes      =require('./routes')
 
 if ( process.env.NODE_ENV !== 'test') {
   mongoose.connect('mongodb://localhost/pubstomp', () => {
@@ -13,6 +15,8 @@ if ( process.env.NODE_ENV !== 'test') {
 }
 
 const app = express()
+
+app.use(passport.initialize())
 
 app.use(bodyParser.json())
 
