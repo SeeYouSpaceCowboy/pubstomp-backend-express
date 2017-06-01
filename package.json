@@ -33,12 +33,19 @@
     "json-loader": "^0.5.4",
     "mocha": "^3.3.0",
     "mongoose": "^4.10.2",
+    "morgan": "^1.8.2",
     "nodemon": "^1.11.0",
     "supertest": "^3.0.0"
   },
   "dependencies": {
     "babel-cli": "^6.24.1",
     "babel-preset-node6": "^11.0.0",
-    "express": "^4.15.3"
+    "bcrypt-nodejs": "0.0.3",
+    "cors": "^2.8.3",
+    "express": "^4.15.3",
+    "jwt-simple": "^0.5.1",
+    "passport": "^0.3.2",
+    "passport-jwt": "^2.0.0",
+    "passport-local": "^1.0.0"
   }
 }
