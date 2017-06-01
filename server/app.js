@@ -1,8 +1,11 @@
-const express =require('express')
-const mongoose =require('mongoose')
-const bodyParser =require('body-parser')
+const express = require('express');
+const Router = express.Router()
+const mongoose = require('mongoose');
+const cors = require('cors');
+const morgan = require('morgan');
+const bodyParser = require('body-parser');
 
-const routes =require('./routes')
+const routes = require('./routes');
 
 if ( process.env.NODE_ENV !== 'test') {
   mongoose.connect('mongodb://localhost/pubstomp', () => {
@@ -14,6 +17,8 @@ if ( process.env.NODE_ENV !== 'test') {
 
 const app = express()
 
+// app.use(morgan('combined'));
+app.use(cors());
 app.use(bodyParser.json())
 
 app.use((req, res, next) => {
@@ -22,7 +27,7 @@ app.use((req, res, next) => {
   next()
 })
 
-app.use('/api', routes)
+routes(app)
 
 app.use( (err, req, res, next) => {
   console.log(err.message)

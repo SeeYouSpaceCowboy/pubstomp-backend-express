@@ -1,16 +1,21 @@
-const express = require('express')
+const Authentication = require('./controllers/authController');
 
 const basicController = require('./controllers/basicController')
-const userController = require('./controllers/userController')
+const profileController = require('./controllers/profileController')
 
-const routes = express()
+const passportService = require('../services/passport');
+const passport = require('passport');
 
-routes.get('/', basicController.get);
+const requireAuth = passport.authenticate('jwt', { session: false });
+const requireSignin = passport.authenticate('local', { session: false });
 
-routes.post('/signup', userController.create);
-routes.post('/login', userController.login);
+module.exports = function(app) {
+  app.get('/api/', basicController.get);
 
-routes.get('/user/:email', userController.show);
-routes.get('/users', userController.showAll);
+  app.post('/api/login', requireSignin, Authentication.login);
+  app.post('/api/signup', Authentication.signup);
 
-module.exports = routes
+  app.get('/api/profile/:username', profileController.show);
+  app.get('/api/profile', profileController.showAll);
+
+}
