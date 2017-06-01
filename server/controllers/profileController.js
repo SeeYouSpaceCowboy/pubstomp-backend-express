@@ -9,10 +9,10 @@ profileController.create = (request, response) => {
     username
   })
 
-  profile.save().then((newUser) => {
+  profile.save().then( (newProfile) => {
     response.status(200).json({
       success: true,
-      data: newUser
+      data: newProfile
     })
   }).catch((err) => {
     response.status(500).json({
@@ -24,7 +24,7 @@ profileController.create = (request, response) => {
 profileController.show = (request, response) => {
   const { username } = request.body
 
-  db.User.findOne({ username })
+  db.Profile.findOne({ username })
     .then((profile) => {
       return response.status(200).json({
         data: profile
@@ -38,7 +38,7 @@ profileController.show = (request, response) => {
 }
 
 profileController.showAll = (request, response) => {
-  db.User.find({})
+  db.Profile.find({})
     .then((profiles) => {
       return response.status(200).json({
         data: profiles
