@@ -17,7 +17,7 @@ if ( process.env.NODE_ENV !== 'test') {
 
 const app = express()
 
-// app.use(morgan('combined'));
+app.use(morgan('combined'));
 app.use(cors());
 app.use(bodyParser.json())
 

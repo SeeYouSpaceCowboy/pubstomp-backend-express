@@ -31,12 +31,7 @@ describe('Creating records', () => {
         done()
       })
       .catch( (err) => {
-        let errorMsg = {
-          path: 'email',
-          name: 'ValidatorError'
-        }
-        assert(err.errors.email.path === errorMsg.path)
-        assert(err.errors.email.name === errorMsg.name)
+        assert(err.errors.email.message.indexOf('is required') >= 0)
         done()
       })
   })
@@ -53,12 +48,7 @@ describe('Creating records', () => {
         done()
       })
       .catch( (err) => {
-        let errorMsg = {
-          path: 'password',
-          name: 'ValidatorError'
-        }
-        assert(err.errors.password.path === errorMsg.path)
-        assert(err.errors.password.name === errorMsg.name)
+        assert(err.errors.password.message.indexOf('is required') >= 0)
         done()
       })
   })
