@@ -53,4 +53,18 @@ describe('Creating records', () => {
       })
   })
 
+  it('gets initialized with a timestamp (createdAt)', done => {
+    let user = {
+      email: 'test@email.com',
+      password: '123456'
+    }
+    let date = Date.now()
+    const eric = new User(user)
+    eric.save()
+      .then(() => {
+        assert( eric.createdAt - date === 0 )
+        done()
+      })
+  })
+
 })
