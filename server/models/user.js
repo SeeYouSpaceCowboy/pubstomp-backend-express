@@ -5,6 +5,8 @@ const { Schema } = mongoose
 
 mongoose.Promise = global.Promise
 
+const ProfileSchema = require('./profile');
+
 const userSchema = new Schema({
   email: {
     type: String,
@@ -14,6 +16,18 @@ const userSchema = new Schema({
     type: String,
     required: true,
     minlength: [6, 'Password must be 6 characters or more']
+  },
+  profile: {
+    type: Schema.Types.ObjectId,
+    ref: 'Profile'
+  },
+  friends: [{
+    type: Schema.Types.ObjectId,
+    ref: 'User'
+  }],
+  createdAt: {
+    type : Date,
+    default: Date.now
   }
 })
 
