@@ -27,4 +27,4 @@ All API endpoints have a `api` prefix. If this is on localhost then this should 
 | Methods  | Endpoints  | Variables | Response |
 | ------------- | ------------- | ------------- | ------------- |
 |post| `/signup`  | `email`, `password` ||
-|get| `/login`  | `email`, `password`  ||
+|post| `/login`  | `email`, `password`  ||
