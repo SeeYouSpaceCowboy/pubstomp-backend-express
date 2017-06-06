@@ -1,24 +1,44 @@
-const db = require('./../models')
+const mongoose = require('mongoose')
+const Profile = mongoose.model('Profile')
+const User = mongoose.model('User')
 
-const profileController = {}
+const profileController = {};
 
 profileController.create = (request, response) => {
-  const { username } = request.body
 
-  const profile = new db.Profile({
-    username
-  })
+  // List any key that shouldn't be user assigned here
+  let protectedKeys = ['_id', 'id', '__v'];
 
-  profile.save().then( (newProfile) => {
-    response.status(200).json({
-      success: true,
-      data: newProfile
+  const user = request.user;
+  const profile = new Profile();
+
+  for (let key in request.body) {
+    if ( Object.keys( Profile.schema.tree ).indexOf(key) >= 0 &&
+    Object.keys( Profile.schema.tree ).indexOf( protectedKeys < 0 ) ) {
+      profile[key] = request.body[key];
+    }
+  }
+
+  profile.save()
+    .then( () => {
+      User.findOne({ email: user.email })
+        .then( (user) => {
+          user.profile = profile;
+          return user.save();
+        })
+        .then( (user) => {
+          response.status(200).json({
+            success: true,
+            data: profile
+          });
+        })
     })
-  }).catch((err) => {
-    response.status(500).json({
-      message: err
+    .catch((err) => {
+      console.log(err)
+      response.status(500).json({
+        message: err
+      });
     })
-  })
 }
 
 profileController.show = (request, response) => {

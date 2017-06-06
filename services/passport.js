@@ -14,7 +14,7 @@ const localLogin = new LocalStrategy(localOptions, function(email, password, don
 
     user.comparePassword(password, function(err, isMatch) {
       if (err) { return done(err); }
-      if (!isMatch) { return done(null, false); }
+      if (!isMatch) { return done(null, false, 'Incorrect Password'); }
 
       return done(null, user);
     });
@@ -35,7 +35,7 @@ const jwtLogin = new JwtStrategy(jwtOptions, function(payload, done) {
     if (user) {
       done(null, user);
     } else {
-      done(null, false);
+      done(null, false, 'Invalid Token');
     }
   });
 });

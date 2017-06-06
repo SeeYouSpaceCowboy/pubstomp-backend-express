@@ -15,6 +15,7 @@ module.exports = function(app) {
   app.post('/api/login', requireSignin, Authentication.login);
   app.post('/api/signup', Authentication.signup);
 
+  app.post('/api/profile', requireAuth, profileController.create);
   app.get('/api/profile/:username', profileController.show);
   app.get('/api/profile', profileController.showAll);
 
