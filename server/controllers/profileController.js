@@ -1,6 +1,6 @@
-const mongoose = require('mongoose')
-const Profile = mongoose.model('Profile')
-const User = mongoose.model('User')
+const mongoose = require('mongoose');
+const Profile = mongoose.model('Profile');
+const User = mongoose.model('User');
 
 const profileController = {};
 
@@ -24,51 +24,51 @@ profileController.create = (request, response) => {
       User.findOne({ email: user.email })
         .then( (user) => {
           user.profile = profile;
-          return user.save();
-        })
-        .then( (user) => {
-          response.status(200).json({
-            success: true,
-            data: profile
-          });
-        })
-    })
-    .catch((err) => {
-      console.log(err)
-      response.status(500).json({
-        message: err
-      });
-    })
-}
+          user.save()
+            .then( (user) => {
+              response.status(200).json({
+                success: true,
+                data: profile
+              });
+            })
+            .catch((err) => {
+              console.log(err)
+              response.status(500).json({
+                message: err
+              });
+            });
+        });
+    });
+};
 
 profileController.show = (request, response) => {
-  const { username } = request.body
+  const { username } = request.params;
 
-  db.Profile.findOne({ username })
+  Profile.findOne({ username })
     .then((profile) => {
       return response.status(200).json({
         data: profile
-      })
+      });
     })
     .catch((err) => {
       return response.status(500).json({
-        message: err
-      })
-    })
-}
+        error: err
+      });
+    });
+};
 
 profileController.showAll = (request, response) => {
-  db.Profile.find({})
+  Profile.find({})
     .then((profiles) => {
       return response.status(200).json({
         data: profiles
-      })
+      });
     })
     .catch((err) => {
       return response.status(500).json({
-        message: err
-      })
-    })
+        error: err
+      });
+    });
 }
 
-module.exports = profileController
+module.exports = profileController;

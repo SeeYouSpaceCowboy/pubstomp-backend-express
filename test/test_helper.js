@@ -3,6 +3,10 @@ const mongoose = require('mongoose')
 const request = require('supertest')
 const app = require('../server/app')
 
+const passport = require('passport');
+const jwt = require('jwt-simple');
+const config = require('../config');
+
 const User = mongoose.model('User')
 const Profile = mongoose.model('Profile')
 
@@ -24,7 +28,7 @@ beforeEach( done => {
     .catch(()=>done())
 })
 
-module.exports.createAuthenticatedUser = ( user ) => {
+module.exports.createAuthenticatedUser = user => {
   return new Promise(function(resolve, reject) {
     request(app)
       .post('/api/signup')
@@ -33,4 +37,12 @@ module.exports.createAuthenticatedUser = ( user ) => {
         resolve(response.body.token);
       });
   })
+}
+
+module.exports.generateTokenFromUser = (user, done) => {
+  function tokenForUser(user) {
+    const timestamp = new Date().getTime();
+    return jwt.encode({ sub: user.id, iat: timestamp }, config.secret);
+  }
+  return tokenForUser( user );
 }
