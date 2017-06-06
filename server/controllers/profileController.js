@@ -9,36 +9,48 @@ profileController.create = (request, response) => {
   // List any key that shouldn't be user assigned here
   let protectedKeys = ['_id', 'id', '__v'];
 
-  const user = request.user;
-  const profile = new Profile();
+  // Check if username already exists
+  Profile.findOne({ username: request.body.username })
+    .then( (duplicateProfile) => {
+      if ( duplicateProfile ) {
+        response.status(422).json({
+          success: false,
+          error: 'Username already exists.'
+        });
+        return;
+      }
 
-  for (let key in request.body) {
-    if ( Object.keys( Profile.schema.tree ).indexOf(key) >= 0 &&
-    Object.keys( Profile.schema.tree ).indexOf( protectedKeys < 0 ) ) {
-      profile[key] = request.body[key];
-    }
-  }
+      const user = request.user;
+      const profile = new Profile();
 
-  profile.save()
-    .then( () => {
-      User.findOne({ email: user.email })
-        .then( (user) => {
-          user.profile = profile;
-          user.save()
+      for (let key in request.body) {
+        if ( Object.keys( Profile.schema.tree ).indexOf(key) >= 0 &&
+        Object.keys( Profile.schema.tree ).indexOf( protectedKeys < 0 ) ) {
+          profile[key] = request.body[key];
+        }
+      }
+
+      profile.save()
+        .then( () => {
+          User.findOne({ email: user.email })
             .then( (user) => {
-              response.status(200).json({
-                success: true,
-                data: profile
-              });
-            })
-            .catch((err) => {
-              console.log(err)
-              response.status(500).json({
-                message: err
-              });
+              user.profile = profile;
+              user.save()
+                .then( (user) => {
+                  response.status(200).json({
+                    success: true,
+                    data: profile
+                  });
+                })
+                .catch((err) => {
+                  console.log(err)
+                  response.status(500).json({
+                    message: err
+                  });
+                });
             });
         });
-    });
+  }); // End of then for duplicate profile check
 };
 
 profileController.show = (request, response) => {

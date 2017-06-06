@@ -35,7 +35,7 @@ const jwtLogin = new JwtStrategy(jwtOptions, function(payload, done) {
     if (user) {
       done(null, user);
     } else {
-      done(null, false, 'Invalid Token');
+      done(null, false);
     }
   });
 });

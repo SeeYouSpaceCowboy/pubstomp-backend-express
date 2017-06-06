@@ -10,6 +10,7 @@ const Profile = mongoose.model('Profile');
 
 describe('Profile Controller', () => {
 
+
   describe('while logged in as an authenticated user', () => {
 
     it('can handle a POST request to /profile that creates a user profile and assigns it to the user that made the request', done => {
@@ -43,6 +44,45 @@ describe('Profile Controller', () => {
         });
     });
 
+    it('will not create a profile if the username is not unique', done => {
+      let user = {
+        email: 'test@email.com',
+        password: '123456'
+      }
+
+      let profile = {
+        username: 'testslayer',
+        firstName: 'Eric',
+        gender: 'Male'
+      }
+      let token;
+
+      const eric = new User(user);
+      const ericProfile = new Profile(profile);
+
+      eric.save()
+        .then( () => {
+          ericProfile.save()
+            .then( () => {
+              token = TestHelper.generateTokenFromUser( eric, done )
+              request(app)
+                .post('/api/profile')
+                .send(profile)
+                .set({ Authorization: token })
+                .end( (err, response) => {
+                  // console.log(response)
+                  assert.equal( 'error' in response.body, true );
+                  User.findOne({ email: user.email })
+                    .then( ( user ) => {
+                      // assert.equal( user.profile.username, undefined );
+                      done();
+                    })
+                    .catch( err => console.log(err))
+                });
+            });
+      });
+    });
+
     it('can handle a GET request to /profile/:username returns the correct user profile info and requires authentication', done => {
       let user = {
         email: 'test@email.com',
@@ -60,7 +100,7 @@ describe('Profile Controller', () => {
       const ericProfile = new Profile(profile);
       eric.save()
         .then( () => {
-          token = TestHelper.generateTokenFromUser( user, done )
+          token = TestHelper.generateTokenFromUser( eric, done )
           ericProfile.save()
             .then( () => {
               eric.profile = ericProfile;
@@ -78,7 +118,40 @@ describe('Profile Controller', () => {
             });
         });
     });
-    //end of 'as an authenticated user' describe block
-  });
-  //end of 'Profile Controller' describe block
-});
+
+    it('can handle a GET request to /profile/:username fails with an error if an invalid token is provided', done => {
+      let user = {
+        email: 'test@email.com',
+        password: '123456'
+      }
+
+      let profile = {
+        username: 'testslayer',
+        firstName: 'Eric',
+        gender: 'Male'
+      }
+      let token;
+
+      const eric = new User(user);
+      const ericProfile = new Profile(profile);
+      eric.save()
+        .then( () => {
+          token = 'iHax'
+          ericProfile.save()
+            .then( () => {
+              eric.profile = ericProfile;
+              eric.save()
+                .then( () => {
+                  request(app)
+                  .get('/api/profile/testslayer')
+                  .set({ Authorization: token })
+                  .end( (err, response) => {
+                    assert.equal( Object.keys(response.body).length , 0 );
+                    done();
+                  });
+                });
+            });
+        });
+    });
+  }); //end of 'as an authenticated user' describe block
+}); //end of 'Profile Controller' describe block
