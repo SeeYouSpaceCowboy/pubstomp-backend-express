@@ -15,8 +15,8 @@ const profileSchema = new Schema({
   gender: {
     type: String
   },
-  age: {
-    type: Number
+  dob: {
+    type: Date
   },
   summary: {
     type: String
@@ -32,6 +32,10 @@ const profileSchema = new Schema({
   },
   jobTitle: {
     type: String
+  },
+  createdAt: {
+    type : Date,
+    default: Date.now
   }
 })
 
