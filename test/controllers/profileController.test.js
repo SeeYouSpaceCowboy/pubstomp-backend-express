@@ -44,6 +44,35 @@ describe('Profile Controller', () => {
         });
     });
 
+    it('returns an error if an invalid token is provided to a POST request to /profile', done => {
+      let user = {
+        email: 'test@email.com',
+        password: '123456'
+      }
+
+      let profile = {
+        username: 'testslayer',
+        firstName: 'Eric',
+        gender: 'Male'
+      }
+
+      const auth = TestHelper.createAuthenticatedUser( user )
+        .then( (token) => {
+          request(app)
+            .post('/api/profile')
+            .send(profile)
+            .set({ Authorization: 'hax' })
+            .end( (err, response) => {
+              User.findOne({ email: user.email })
+                .populate('profile')
+                .then( ( user ) => {
+                  assert.equal( response.error.text, "Unauthorized" );
+                  done();
+                })
+            });
+        });
+    });
+
     it('will not create a profile if the username is not unique', done => {
       let user = {
         email: 'test@email.com',
@@ -70,14 +99,8 @@ describe('Profile Controller', () => {
                 .send(profile)
                 .set({ Authorization: token })
                 .end( (err, response) => {
-                  // console.log(response)
                   assert.equal( 'error' in response.body, true );
-                  User.findOne({ email: user.email })
-                    .then( ( user ) => {
-                      // assert.equal( user.profile.username, undefined );
-                      done();
-                    })
-                    .catch( err => console.log(err))
+                  done();
                 });
             });
       });
@@ -100,7 +123,8 @@ describe('Profile Controller', () => {
       const ericProfile = new Profile(profile);
       eric.save()
         .then( () => {
-          token = TestHelper.generateTokenFromUser( eric, done )
+          token = TestHelper.generateTokenFromUser( eric, done );
+
           ericProfile.save()
             .then( () => {
               eric.profile = ericProfile;
@@ -119,7 +143,7 @@ describe('Profile Controller', () => {
         });
     });
 
-    it('can handle a GET request to /profile/:username fails with an error if an invalid token is provided', done => {
+    it('returns an error from a GET request to /profile/:username with an invalid token', done => {
       let user = {
         email: 'test@email.com',
         password: '123456'
@@ -146,7 +170,7 @@ describe('Profile Controller', () => {
                   .get('/api/profile/testslayer')
                   .set({ Authorization: token })
                   .end( (err, response) => {
-                    assert.equal( Object.keys(response.body).length , 0 );
+                    assert.equal( response.error.text, "Unauthorized" );
                     done();
                   });
                 });
