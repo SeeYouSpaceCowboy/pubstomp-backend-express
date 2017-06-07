@@ -63,13 +63,9 @@ describe('Profile Controller', () => {
             .send(profile)
             .set({ Authorization: 'hax' })
             .end( (err, response) => {
-              User.findOne({ email: user.email })
-                .populate('profile')
-                .then( ( user ) => {
-                  assert.equal( response.error.text, "Unauthorized" );
-                  done();
-                })
-            });
+              assert.equal( response.error.text, "Unauthorized" );
+              done();
+            })
         });
     });
 
