@@ -24,7 +24,9 @@ $ npm start
 
 All API endpoints have a `api` prefix. If this is on localhost then this should default to port `4000` and you should be making calls to the following http://localhost:4000/api.
 
-| Methods  | Endpoints  | Variables | Response |
-| ------------- | ------------- | ------------- | ------------- |
-|post| `/signup`  | `email`, `password` ||
-|post| `/login`  | `email`, `password`  ||
+| Methods  | Endpoints  | Variables | Response | JWT Req |
+| ------------- | ------------- | ------------- | ------------- | ------------- |
+|post| `/signup`  | `email`, `password` | JWT Token | No |
+|post| `/login`  | `email`, `password`  | JWT Token | Yes |
+|post| `/profile`  | `username`, `first_name`, `gender`, `dob`, `summary`, `city`, `state`, `country`, `jobTitle` | Profile | Yes |
+|get| `/profile/:username`  |   | Profile | Yes |
