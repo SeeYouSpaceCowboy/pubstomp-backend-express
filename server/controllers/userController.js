@@ -61,7 +61,11 @@ userController.fetchUser = (req, res, next) => {
 
   db.User.findOne({ email: currentUser.email })
     .populate('profile')
-    .then( user => {
+    .then( locatedUser => {
+      let user = {
+        email: locatedUser.email,
+        profile: locatedUser.profile
+      }
       res.json({ user });
     })
     .catch( (err) => {
