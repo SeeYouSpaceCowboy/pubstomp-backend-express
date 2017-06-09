@@ -30,3 +30,5 @@ All API endpoints have a `api` prefix. If this is on localhost then this should 
 |post| `/login`  | `email`, `password`  | JWT Token | Yes |
 |post| `/profile`  | `username`, `first_name`, `gender`, `dob`, `summary`, `city`, `state`, `country`, `jobTitle` | Profile | Yes |
 |get| `/profile/:username`  |   | Profile | Yes |
+|get| `/user/:email`  |   | All Users | Yes |
+|get| `/user`  |   | Email, Profile | Yes |
