@@ -39,6 +39,31 @@ module.exports.createAuthenticatedUser = user => {
   })
 }
 
+module.exports.createAuthenticatedUserWithProfile = (user,profile) => {
+  let token;
+
+  return new Promise(function(resolve, reject) {
+    request(app)
+      .post('/api/signup')
+      .send(user)
+      .end( (err, response) => {
+        token = response.body.token;
+        const userProfile = new Profile( profile );
+        userProfile.save()
+          .then( () => {
+            User.findOne({ email: user.email})
+            .then( user => {
+              user.profile = userProfile;
+              user.save()
+                .then( () => {
+                  resolve(token);
+                })
+            })
+          })
+      });
+  })
+}
+
 module.exports.generateTokenFromUser = (user, done) => {
   function tokenForUser(user) {
     const timestamp = new Date().getTime();

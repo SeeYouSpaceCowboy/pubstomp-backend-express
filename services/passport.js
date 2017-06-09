@@ -29,6 +29,7 @@ const jwtOptions = {
 
 // Create JWT strategy
 const jwtLogin = new JwtStrategy(jwtOptions, function(payload, done) {
+
   User.findById(payload.sub, function(err, user) {
     if (err) { return done(err, false); }
 
@@ -39,6 +40,8 @@ const jwtLogin = new JwtStrategy(jwtOptions, function(payload, done) {
     }
   });
 });
+
+
 
 passport.use(jwtLogin);
 passport.use(localLogin);
