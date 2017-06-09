@@ -13,7 +13,7 @@ describe('Profile Controller', () => {
 
   describe('while logged in as an authenticated user', () => {
 
-    it('can handle a POST request to /profile that creates a user profile and assigns it to the user that made the request', done => {
+    it('can handle a POST request to /profiles that creates a user profile and assigns it to the user that made the request', done => {
       let user = {
         email: 'test@email.com',
         password: '123456'
@@ -28,7 +28,7 @@ describe('Profile Controller', () => {
       const auth = TestHelper.createAuthenticatedUser( user )
         .then( (token) => {
           request(app)
-            .post('/api/profile')
+            .post('/api/profiles')
             .send(profile)
             .set({ Authorization: token })
             .end( (err, response) => {
@@ -44,7 +44,7 @@ describe('Profile Controller', () => {
         });
     });
 
-    it('returns an error if an invalid token is provided to a POST request to /profile', done => {
+    it('returns an error if an invalid token is provided to a POST request to /profiles', done => {
       let user = {
         email: 'test@email.com',
         password: '123456'
@@ -59,7 +59,7 @@ describe('Profile Controller', () => {
       const auth = TestHelper.createAuthenticatedUser( user )
         .then( (token) => {
           request(app)
-            .post('/api/profile')
+            .post('/api/profiles')
             .send(profile)
             .set({ Authorization: 'hax' })
             .end( (err, response) => {
@@ -91,7 +91,7 @@ describe('Profile Controller', () => {
             .then( () => {
               token = TestHelper.generateTokenFromUser( eric, done )
               request(app)
-                .post('/api/profile')
+                .post('/api/profiles')
                 .send(profile)
                 .set({ Authorization: token })
                 .end( (err, response) => {
@@ -102,7 +102,7 @@ describe('Profile Controller', () => {
       });
     });
 
-    it('can handle a GET request to /profile/:username returns the correct user profile info and requires authentication', done => {
+    it('can handle a GET request to /profiles/:username returns the correct user profile info and requires authentication', done => {
       let user = {
         email: 'test@email.com',
         password: '123456'
@@ -127,7 +127,7 @@ describe('Profile Controller', () => {
               eric.save()
                 .then( () => {
                   request(app)
-                  .get('/api/profile/testslayer')
+                  .get('/api/profiles/testslayer')
                   .set({ Authorization: token })
                   .end( (err, response) => {
                     assert.equal( response.body.data.username, profile.username );
@@ -163,7 +163,7 @@ describe('Profile Controller', () => {
               eric.save()
                 .then( () => {
                   request(app)
-                  .get('/api/profile/testslayer')
+                  .get('/api/profiles/testslayer')
                   .set({ Authorization: token })
                   .end( (err, response) => {
                     assert.equal( response.error.text, "Unauthorized" );

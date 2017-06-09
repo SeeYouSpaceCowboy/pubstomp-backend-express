@@ -8,7 +8,7 @@ const User = mongoose.model('User')
 
 describe('User Controller', () => {
 
-    it('handles get request to /user/:email returns email and profile', done => {
+    it('handles get request to /users/:email returns email and profile', done => {
       let user = {
         email: 'test@email.com',
         password: '123456'
@@ -20,7 +20,7 @@ describe('User Controller', () => {
       const auth = TestHelper.createAuthenticatedUserWithProfile( user, profile )
         .then( token => {
           request(app)
-          .get(`/api/user/${user.email}`)
+          .get(`/api/users/${user.email}`)
           .set({ 'Authorization': token })
           .end( (err, response) => {
             assert.equal( user.email, response.body.user.email );
@@ -30,7 +30,7 @@ describe('User Controller', () => {
         });
     });
 
-    it('handles get request to /user returns all user\'s email and profile', done => {
+    it('handles get request to /users returns all user\'s email and profile', done => {
       let user = {
         email: 'test@email.com',
         password: '123456'
@@ -51,7 +51,7 @@ describe('User Controller', () => {
           TestHelper.createAuthenticatedUserWithProfile( user2, profile2 )
             .then( () => {
               request(app)
-              .get(`/api/user`)
+              .get(`/api/users`)
               .set({ 'Authorization': token })
               .end( (err, response) => {
                 assert.equal( user.email, response.body.users[0].email );
