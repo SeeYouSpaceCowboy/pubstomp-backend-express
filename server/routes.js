@@ -16,12 +16,12 @@ module.exports = function(app) {
   app.post('/api/login', requireSignin, Authentication.login);
   app.post('/api/signup', Authentication.signup);
 
-  app.post('/api/profile', requireAuth, profileController.create);
-  app.get('/api/profile/:username', requireAuth, profileController.show);
-  app.get('/api/profile', profileController.showAll);
+  app.post('/api/profiles', requireAuth, profileController.create);
+  app.get('/api/profiles/:username', requireAuth, profileController.show);
+  app.get('/api/profiles', profileController.showAll);
 
-  app.post('/api/user', requireAuth, userController.update);
-  app.get('/api/user', requireAuth, userController.showAll);
-  app.get('/api/user/:email', requireAuth, userController.show);
+  app.post('/api/users', requireAuth, userController.update);
+  app.get('/api/users', requireAuth, userController.showAll);
+  app.get('/api/users/:email', requireAuth, userController.show);
 
 };
