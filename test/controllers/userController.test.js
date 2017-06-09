@@ -62,4 +62,25 @@ describe('User Controller', () => {
             });
         });
     });
+
+    it('handles get request to /fetchUser returns the user\'s profile', done => {
+      let user = {
+        email: 'test@email.com',
+        password: '123456'
+      }
+      let profile = {
+        username: 'testslayer'
+      }
+
+      let auth = TestHelper.createAuthenticatedUserWithProfile( user, profile )
+        .then( token => {
+          request(app)
+          .get(`/api/fetchUser`)
+          .set({ 'Authorization': token })
+          .end( (err, response) => {
+            assert.equal( response.body.user.profile.username, profile.username );
+            done();
+          });
+        });
+    });
 });

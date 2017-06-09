@@ -55,4 +55,18 @@ userController.showAll = (req, res, next) => {
 
 }
 
+userController.fetchUser = (req, res, next) => {
+  //  this is a protected route
+  let currentUser = req.user;
+
+  db.User.findOne({ email: currentUser.email })
+    .populate('profile')
+    .then( user => {
+      res.json({ user });
+    })
+    .catch( (err) => {
+      return next(err);
+    });
+}
+
 module.exports = userController;
